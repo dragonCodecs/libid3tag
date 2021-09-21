@@ -8,6 +8,13 @@ include(GNUInstallDirs)
 #
 # Build
 #
+add_custom_command(
+    COMMAND sed -n -f genre.dat.sed genre.dat.in > ${CMAKE_CURRENT_BINARY_DIR}/genre.dat
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/genre.dat
+    MAIN_DEPENDENCY genre.dat.in
+    DEPENDS genre.dat.sed
+)
 
 add_library(id3tag
     compat.c
@@ -18,6 +25,7 @@ add_library(id3tag
     frame.c
     frametype.c
     genre.c
+    ${CMAKE_CURRENT_BINARY_DIR}/genre.dat
     latin1.c
     parse.c
     render.c
